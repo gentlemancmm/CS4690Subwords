@@ -35,10 +35,21 @@ app.get('/intro', function(req, res) {
   res.status(200).sendFile(`${__dirname}/src/html/intro.html`);
 })
 
+app.get('/player', function(req, res) {
+ res.status(200).sendFile(`${__dirname}/src/html/player.html`);
+ //res.status(200).send("Players gon play");
+})
+
 app.get('*', function(req, res) {
 //   res.status(404).sendFile(`${__dirname}/web/html/404.html`);
     res.status(404).send("wat?");
 });
+
+
+
+
+
+
 
 // Wasap
 
