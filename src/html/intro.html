@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Subwords Player</title>
+</head>
+<body>
+    <div id="app">
+        <v-app class="green darken-4 white--text">
+            <v-content>
+                <v-container>
+                    <v-layout align-center justify-center column fill-height>
+                        <h1 style="margin: 0.7em;">Join a Game</h1>
+                        <v-text-field
+                            label="Name"
+                            placeholder="Name"
+                            solo
+                        ></v-text-field>
+                        <v-text-field
+                            label="Code"
+                            placeholder="Room Code"
+                            solo
+                            maxlength="4"
+                        ></v-text-field>
+                        <v-btn dark>Let's go</v-btn>
+                    </v-layout>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script>
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        msg: "Woot!"
+    }
+})
+
+</script>
+</body>
+</html>

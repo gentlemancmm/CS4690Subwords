@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900|Material+Icons" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.min.css" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Subwords</title>
+</head>
+<body>
+    <div id="app">
+        <v-app class="green darken-3 white--text">
+            <v-content>
+                <v-container fill-height>
+                    <v-layout align-center justify-end>
+                        <v-flex>
+                            <h1 class="display-3">Subwords</h1>
+                        </v-flex>
+                        <v-flex>
+                            <p class="display-1">Players:</p>
+                            <v-list dark>
+                                <template  v-for="(player, index) in players" :key="player.id">
+                                    <v-list-tile>
+                                        {{ player }}
+                                    </v-list-tile>
+                                    <v-divider v-if="index + 1 != players.length"></v-divider>
+                                </template>
+                            </v-list>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
+            </v-content>
+        </v-app>
+    </div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script>
+
+var app = new Vue({
+    el: '#app',
+    data: {
+        players: [
+            "Joe",
+            "Sue",
+            "Bob"
+        ]
+    }
+})
+
+</script>
+</body>
+</html>
