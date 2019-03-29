@@ -28,6 +28,10 @@ let app = express();
 // app.use(favicon(`${__dirname}/web/img/favicon.ico`))
 
 app.get('/', function(req, res) {
+  res.status(200).sendFile(`${__dirname}/src/html/index.html`);
+})
+
+app.get('/intro', function(req, res) {
   res.status(200).sendFile(`${__dirname}/src/html/intro.html`);
 })
 
