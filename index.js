@@ -40,6 +40,8 @@ app.get('*', function(req, res) {
     res.status(404).send("wat?");
 });
 
+// Wasap
+
 //start the server
 if (!process.env.PORT) { process.env.PORT = 8080 }
 if (!process.env.IP) { process.env.IP = "0.0.0.0" }
