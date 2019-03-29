@@ -8,11 +8,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Subwords Screen</title>
 </head>
-<body>
+<body style="background-color: #1B5E20; color:white;">
     <div id="app">
-        <h1>Boo-Yah!</h1>
+        <h1>SubWords Presents...</h1>
 
-        
+        <h2>{{word}}</h2>
+        <ul>
+            <li v-for="subword in subwords">{{subword}}</li>
+        </ul>
+
+
         
     </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
@@ -22,12 +27,17 @@
 var app = new Vue({
     el: '#app',
     data: {
-        players: [
-            "Joe",
-            "Sue",
-            "Bob"
+        word: "Applesauce",
+        subwords: [
+            "app",
+            "sauce",
+            "lap",
+            "pep",
+            "pup",
+            "slap"
         ]
     }
+    
 })
 
 </script>
