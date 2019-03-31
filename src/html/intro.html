@@ -10,24 +10,26 @@
 </head>
 <body>
     <div id="app">
-        <h1>{{msg}}</h1>
         <v-app class="green darken-4 white--text">
             <v-content>
                 <v-container>
                     <v-layout align-center justify-center column fill-height>
                         <h1 style="margin: 0.7em;">Join a Game</h1>
                         <v-text-field
-                            label="Name"
+                            label="playerName"
+                            v-model="playerName"
                             placeholder="Name"
                             solo
                         ></v-text-field>
                         <v-text-field
-                            label="Code"
+                            label="roomCodeInput"
+                            v-model="roomCodeInput"
                             placeholder="Room Code"
                             solo
                             maxlength="4"
                         ></v-text-field>
-                        <v-btn dark>Let's go</v-btn>
+                        <v-btn dark @click = "login()">Login</v-btn>
+                        <v-btn dark @click = "startGame()">Start Game</v-btn>
                     </v-layout>
                 </v-container>
             </v-content>
@@ -40,7 +42,35 @@
 var app = new Vue({
     el: '#app',
     data: {
-        msg: "Woot!"
+        roomCode: "asdf",
+        authentication: false,
+        playerName: "",
+        roomCodeInput: ""
+        
+    },
+    methods: {
+        login: function(){
+            if (this.username != "" && this.roomCodeInput != "") {
+                if (this.roomCodeInput == this.roomCode) {
+
+                    authentication = true;
+                    alert("login successful")
+                } else {
+                    console.log("The username and / or password is incorrect");
+                    }
+            } else {
+                console.log("A username and password must be present");
+            }
+        },
+
+        startGame: function(){
+            if (authentication = true){
+                // go to player.html
+                alert("ready set go")
+            } else {
+                alert("please login with a valid username/room code")
+            }
+        }
     }
 })
 
