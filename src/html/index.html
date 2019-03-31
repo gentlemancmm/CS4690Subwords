@@ -9,6 +9,16 @@
     <title>Subwords</title>
 </head>
 <body>
+    <!--Client Side-->
+    <!--<script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>-->
+    <script src = "/socket.io/socket.io.js"></script>
+    <script>
+        let socket = io.connect('http://localhost:8080')
+        socket.on('message', (data) => {
+            console.log(data)
+            socket.emit('another event', {Field: 'Good!'})
+        })
+    </script>
     <div id="app">
         <v-app class="green darken-3 white--text">
             <v-content>
@@ -20,7 +30,7 @@
                         <v-flex>
                             <p class="display-1">Players:</p>
                             <v-list dark>
-                                <template  v-for="(player, index) in players" :key="player.id">
+                                <template  v-for="(player, index) in players">
                                     <v-list-tile>
                                         {{ player }}
                                     </v-list-tile>
