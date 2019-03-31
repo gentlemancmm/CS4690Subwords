@@ -14,13 +14,13 @@
             <v-content>
                 <v-container fill-height align-center>
                     <v-layout fill-height align-center justify-center column>
-                        <v-flex xs4 align-content-center >
+                        <v-flex xs4 align-content-center justify-center >
                             <h1 class="display-word" >{{ word }}</h1>
                         </v-flex> 
                         <v-flex> 
                              <v-card>
                                 <v-card-text>
-                                    <v-text-field v-model="value" :mask="mask" label="Type Answer"></v-text-field>
+                                    <v-text-field v-model="value" :mask="mask" label="Type Answer" :maxlength="max"></v-text-field>
                                 </v-card-text>
                             </v-card>
                                 
@@ -41,9 +41,11 @@ var app = new Vue({
     data: {
         msg: "yolo, players play",
         word: "Dog",
-        maxlength:
-        answer: 
-
+        max: 3,
+        player: {
+            pts: 0,
+            name: ""
+        }
     }
     
 })
