@@ -29,7 +29,7 @@
                             maxlength="4"
                         ></v-text-field>
                         <v-btn dark @click = "login()">Login</v-btn>
-                        <v-btn dark @click = "startGame()">Start Game</v-btn>
+                        <v-btn dark v-if= "authentication" @click = "startGame()"  >Start Game</v-btn>
                     </v-layout>
                 </v-container>
             </v-content>
@@ -38,6 +38,13 @@
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
 <script>
+
+/*
+    1. Get socket communicating (start socket, emit message back to server, server prints message)
+    2. Use Vue to print out a message when you click on "Let's go" (with a function)
+    3. Change that function to 'emit' a message back to the server with player name and room code
+    4. Have the server print out the player name and room code
+*/
 
 var app = new Vue({
     el: '#app',
@@ -53,24 +60,29 @@ var app = new Vue({
             if (this.username != "" && this.roomCodeInput != "") {
                 if (this.roomCodeInput == this.roomCode) {
 
-                    authentication = true;
+                    this.authentication = true;
                     alert("login successful")
+                    console.log(this.authentication)
                 } else {
                     console.log("The username and / or password is incorrect");
+                    console.log(this.authentication)
                     }
             } else {
                 console.log("A username and password must be present");
-            }
+                console.log(this.authentication)
+            } 
         },
 
         startGame: function(){
-            if (authentication = true){
+            if (this.authentication == true){
                 // go to player.html
                 alert("ready set go")
             } else {
                 alert("please login with a valid username/room code")
             }
+            console.log(this.authentication)
         }
+        
     }
 })
 
