@@ -36,11 +36,18 @@
 <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
 <script>
 
+/*
+    1. Get socket communicating (start socket, emit message back to server, server prints message)
+    2. Use Vue to print out a message when you click on "Let's go" (with a function)
+    3. Change that function to 'emit' a message back to the server with player name and room code
+    4. Have the server print out the player name and room code
+*/
+
 var app = new Vue({
     el: '#app',
     data: {
         msg: "Woot!",
-        word: "Applesaue",
+        word: "Applesaue"
     }
 })
 
