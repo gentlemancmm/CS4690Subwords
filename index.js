@@ -63,10 +63,6 @@ const server = app.listen(process.env.PORT, process.env.IP, 511, function() {
 
 //start the socket
 let io = socket(server)
-<<<<<<< HEAD
-//let introio = socket(server)
-=======
->>>>>>> dd285628d76a4b36cffac4901bd3f3e655069e58
 
 //Server Side
 io.on('connection', (socket) => {
@@ -75,29 +71,9 @@ io.on('connection', (socket) => {
   socket.on('another event', (data) => {
     console.log(data)
   })
-<<<<<<< HEAD
-
-  socket.on('addPlayer', (data) => {
-    console.log("Player: ", data)
-  })
-})
-
-//Server side for intro.html
-introio.on('connection', (socket) => {
-  console.log('We have a player!')
-  socket.emit('message', {server: 'Are you the new player?'})
-  socket.on('player event', (data) => {
-    console.log(data)
-    let players = []
-    players.forEach(function(data){
-      console.log(data)
-    })
-
-=======
 
   socket.on('addPlayer', (data) => {
     console.log("Player: ", data, socket.id)
->>>>>>> dd285628d76a4b36cffac4901bd3f3e655069e58
   })
 })
 
