@@ -77,6 +77,8 @@ io.on('connection', (socket) => {
   })
 })
 
+
+/*
 //Server side for intro.html
 introio.on('connection', (socket) => {
   console.log('We have a player!')
@@ -90,6 +92,7 @@ introio.on('connection', (socket) => {
 })
 })
 
+*/
 
 
 
