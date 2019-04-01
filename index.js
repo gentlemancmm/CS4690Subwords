@@ -78,12 +78,19 @@ io.on('connection', (socket) => {
     homeSocket = socket
   }
 
-  socket.on('addPlayer', (data) => {
-    if (players[data.Name]){
+  socket.on('authenticate', (data) => {
+    console.log(data)
+    if (data.Code != roomCode){
+      console.log("BAD CODE")
+      socket.emit('badCode')
+    } else if (players[data.Name]) {
+      console.log("BAD NAME")
       socket.emit('badName')
     } else {
+      console.log("ALL GOOD")
       players[data.Name] = {name: data.Name, pts: 0, socketId: socket.id}
       homeSocket.emit("players", Object.keys(players))
+      socket.emit('goodName')
     }
   })
 
