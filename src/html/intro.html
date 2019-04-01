@@ -9,6 +9,13 @@
     <title>Subwords Player Intro</title>
 </head>
 <body>
+    <!--Client Side for Player Additions-->
+    <!--<script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>-->
+    <script src = "/socket.io/socket.io.js"></script>
+    <script>
+       
+      
+    </script>
     <div id="app">
         <v-app class="green darken-4 white--text">
             <v-content>
@@ -28,8 +35,8 @@
                             solo
                             maxlength="4"
                         ></v-text-field>
-                        <v-btn dark @click = "login(); snackbar = true">Login</v-btn>
-                        <v-btn dark v-if= "authentication" @click = "startGame()"  >Start Game</v-btn>
+                        <v-btn dark @click = "login(); snackbar = true"; >Login</v-btn>
+                        <v-btn dark v-if= "authentication" @click = "messagemaker; startGame()"  >Start Game</v-btn>
                     </v-layout>
                     <v-snackbar
                         v-model="snackbar"
@@ -66,15 +73,20 @@
 var app = new Vue({
     el: '#app',
     data: {
+
         roomCode: "asdf",
+        roomCodeInput: "",
         authentication: false,
         playerName: "",
-        roomCodeInput: "",
+        
         
         snackbar: false,
         timeout: 3000,
         text: "",
         color: "",
+
+        message: "hi i'm intro page"
+
       
     },
     methods: {
@@ -105,6 +117,14 @@ var app = new Vue({
             console.log(this.authentication)
         },
 
+         messagemaker: function(event){
+            let socket = io.connect('http://localhost:8080')
+
+            socket.on('message', (data) => {
+            console.log(data)
+            socket.emit('player event', {Name: this.playerName, Code: this.roomCodeInput})
+            })
+        }
     }
 })
 
