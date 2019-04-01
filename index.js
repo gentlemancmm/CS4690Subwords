@@ -30,7 +30,11 @@ let app = express();
 // app.use(favicon(`${__dirname}/web/img/favicon.ico`))
 
 app.get('/', function(req, res) {
-  res.status(200).sendFile(`${__dirname}/src/html/index.html`)
+  // if (!homeSocket) {
+    res.status(200).sendFile(`${__dirname}/src/html/index.html`)
+  // } else {
+  //   res.redirect('/intro')
+  // }
 })
 
 app.get('/intro', function(req, res) {
@@ -63,18 +67,35 @@ const server = app.listen(process.env.PORT, process.env.IP, 511, function() {
 
 //start the socket
 let io = socket(server)
+let homeSocket;
+let roomCode
+let players = {}
 
 //Server Side
 io.on('connection', (socket) => {
-  console.log('Connection connected!: ', socket.id)
-  socket.emit('message', {chris: 'Hi, how are you?'})
-  socket.on('another event', (data) => {
-    console.log(data)
-  })
+  console.log("Socket Connected: ", socket.id)
+  if (!homeSocket) {
+    homeSocket = socket
+  }
 
   socket.on('addPlayer', (data) => {
-    console.log("Player: ", data, socket.id)
+    if (players[data.Name]){
+      socket.emit('badName')
+    } else {
+      players[data.Name] = {name: data.Name, pts: 0, socketId: socket.id}
+      homeSocket.emit("players", Object.keys(players))
+    }
   })
+
+  socket.on('roomCode', (data) => {
+    roomCode = data
+    socket.broadcast.emit('newRoomCode', roomCode)
+  })
+
+  if (roomCode) {
+    socket.emit('newRoomCode', roomCode)
+  }
+
 })
 
 //server close functions
