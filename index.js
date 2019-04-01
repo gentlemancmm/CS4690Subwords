@@ -80,8 +80,23 @@ introio.on('connection', (socket) => {
   socket.emit('message', {server: 'Are you the new player?'})
   socket.on('player event', (data) => {
     console.log(data)
+    let players = []
+    players.forEach(function(data){
+      console.log(data)
+    })
+
   })
 })
+
+/* var playerArray = new Vue ({
+  el: '#app',
+  data:{
+    players:[
+      
+    ]
+  }
+}) */
+
 
 //server close functions
 function gracefulShutdown() {
