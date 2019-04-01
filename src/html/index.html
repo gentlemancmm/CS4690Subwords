@@ -11,14 +11,6 @@
 <body>
     <!--Client Side-->
     <!--<script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>-->
-    <script src = "/socket.io/socket.io.js"></script>
-    <script>
-        let socket = io.connect('http://localhost:8080')
-        socket.on('message', (data) => {
-            console.log(data)
-            socket.emit('another event', {Field: 'Good!'})
-        })
-    </script>
     <div id="app">
         <v-app class="green darken-3 white--text">
             <v-content>
@@ -26,6 +18,7 @@
                     <v-layout align-center justify-end>
                         <v-flex>
                             <h1 class="display-3">Subwords</h1>
+                            <h2>Room Code: {{ roomCode }}</h2>
                         </v-flex>
                         <v-flex>
                             <p class="display-1">Players:</p>
@@ -45,17 +38,29 @@
     </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script src = "/socket.io/socket.io.js"></script>
 <script>
 
+let socket = io.connect('http://localhost:8080')
+    
 var app = new Vue({
     el: '#app',
     data: {
-        players: [
-            "Joe",
-            "Sue",
-            "Bob"
-        ]
-    }
+        roomCode: '',
+        players: []
+    },
+    mounted() {
+        this.roomCode = Math.random().toString(36).slice(2, 6).toUpperCase()
+        socket.emit('roomCode', this.roomCode)
+
+        socket.on('players', (data) => {
+            this.players = data
+        })
+
+        socket.on('startGame', (data) => {
+            console.log("STARTING GAME")
+        })
+    },
 })
 
 </script>
