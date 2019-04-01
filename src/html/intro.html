@@ -32,7 +32,7 @@
                             maxlength="4"
                         ></v-text-field>
                         <v-btn dark @click="login(); snackbar = true">Login</v-btn>
-                        <v-btn dark v-if="authentication" @click = "messagemaker; startGame()"  >Start Game</v-btn>
+                        <v-btn dark v-if="authentication" @click ="startGame()"  >Start Game</v-btn>
                     </v-layout>
                     <v-snackbar
                         v-model="snackbar"
@@ -90,11 +90,12 @@ var app = new Vue({
         login: function(){
             // snackbar = true
             console.log(this.username)
-            if (this.username && this.roomCodeInput != "") {
+            if (this.playerName && this.roomCodeInput != "") {
                 if (this.roomCodeInput == this.roomCode) {
                     this.authentication = true
                     this.color = "success"
                     this.text = "Login Successful! Click Start to begin game."
+                    this.messagemaker()
                 } else {
                     this.color = "error"
                     this.text = "The username and/or password is incorrect. Try again"
