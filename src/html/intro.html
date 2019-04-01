@@ -73,7 +73,7 @@ var app = new Vue({
     el: '#app',
     data: {
 
-        roomCode: "asdf",
+        roomCode: "",
         roomCodeInput: "",
         authentication: false,
         playerName: "",
@@ -88,11 +88,25 @@ var app = new Vue({
 
       
     },
+    mounted: () => {
+        socket.on('newRoomCode', (data) => {
+            this.roomCode = data
+            console.log(data, this.roomCode)
+        })
+
+        socket.on('badName', () => {
+            console.log('BAD')
+            this.authentication = false
+            this.color = "error"
+            this.text = "That username is already taken. Try another"
+        })
+    },
     methods: {
         login: function(){
             // snackbar = true
+            console.log(this.playerName, this.roomCodeInput, roomCode)
             if (this.playerName && this.roomCodeInput != "") {
-                if (this.roomCodeInput == this.roomCode) {
+                if (this.roomCodeInput == roomCode) {
                     this.authentication = true
                     this.color = "success"
                     this.text = "Login Successful! Click Start to begin game."
@@ -115,7 +129,6 @@ var app = new Vue({
                 this.color = "error"
                 this.text = "please login with a valid username/room code."
             }
-            console.log(this.authentication)
         },
 
         messagemaker: function(event){
