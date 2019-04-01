@@ -33,7 +33,7 @@
                             solo
                             maxlength="4"
                         ></v-text-field>
-                        <v-btn dark @click="login()">Login</v-btn>
+                        <v-btn dark @click="login(); snackbar = true">Login</v-btn>
                         <v-btn dark v-if="auth" @click = "startGame()"  >Start Game</v-btn>
                     </v-layout>
                     <v-snackbar
@@ -98,23 +98,23 @@ var app = new Vue({
 
         socket.on('goodName', () => {
             console.log("GOOD")
-            this.auth = true
-            this.color = "success"
-            this.text = "Login Successful! Click Start to begin game."
+            app.auth = true
+            app.color = "success"
+            app.text = "Login Successful! Click Start to begin game."
         })
 
         socket.on('badName', () => {
             console.log('BADN')
-            this.auth = false
-            this.color = "error"
-            this.text = "That username is already taken. Try another"
+            app.auth = false
+            app.color = "error"
+            app.text = "That username is already taken. Try another"
         })
 
         socket.on('badCode', () => {
             console.log("BADC")
-            this.auth = false
-            this.color = "error"
-            this.text = "The username and/or password is incorrect. Try again"
+            app.auth = false
+            app.color = "error"
+            app.text = "The username and/or password is incorrect. Try again"
         })
     },
     methods: {
