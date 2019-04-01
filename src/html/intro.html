@@ -9,24 +9,31 @@
     <title>Subwords Player Intro</title>
 </head>
 <body>
+    <!--Client Side for Player Additions-->
+    <!--<script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>-->
+    <script src = "/socket.io/socket.io.js"></script>
+    <script>
+       
+      
+    </script>
     <div id="app">
         <v-app class="green darken-4 white--text">
             <v-content>
                 <v-container>
                     <v-layout align-center justify-center column fill-height>
                         <h1 style="margin: 0.7em;">Join a Game</h1>
-                        <v-text-field
+                        <v-text-field v-model="name"
                             label="Name"
                             placeholder="Name"
                             solo
                         ></v-text-field>
-                        <v-text-field
+                        <v-text-field v-model="code"
                             label="Code"
                             placeholder="Room Code"
                             solo
                             maxlength="4"
                         ></v-text-field>
-                        <v-btn dark>Let's go</v-btn>
+                        <v-btn dark v-on:click="messagemaker">Let's go</v-btn>
                     </v-layout>
                 </v-container>
             </v-content>
@@ -47,7 +54,21 @@ var app = new Vue({
     el: '#app',
     data: {
         msg: "Woot!",
-        word: "Applesaue"
+        word: "Applesauce",
+        message: "You go!",
+        name: null,
+        code: null,
+    },
+    methods:{
+        messagemaker: function(event){
+            let socket = io.connect('http://localhost:8080')
+
+            socket.on('message', (data) => {
+            console.log(data)
+            socket.emit('player event', {Name: this.name, Code: this.code})
+})
+            //alert(this.message)
+        }
     }
 })
 

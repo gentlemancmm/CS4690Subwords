@@ -63,12 +63,22 @@ const server = app.listen(process.env.PORT, process.env.IP, 511, function() {
 
 //start the socket
 let io = socket(server)
+let introio = socket(server)
 
 //Server Side
 io.on('connection', (socket) => {
   console.log('Connection connected!')
   socket.emit('message', {chris: 'Hi, how are you?'})
   socket.on('another event', (data) => {
+    console.log(data)
+  })
+})
+
+//Server side for intro.html
+introio.on('connection', (socket) => {
+  console.log('We have a player!')
+  socket.emit('message', {server: 'Are you the new player?'})
+  socket.on('player event', (data) => {
     console.log(data)
   })
 })
