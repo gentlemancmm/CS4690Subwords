@@ -22,17 +22,6 @@
                 <v-container>
                     <v-layout align-center justify-center column fill-height>
                         <h1 style="margin: 0.7em;">Join a Game</h1>
-<<<<<<< HEAD
-                        <v-text-field
-                            label="playerName"
-                            v-model="playerName"
-                            placeholder="Name"
-                            solo
-                        ></v-text-field>
-                        <v-text-field
-                            label="roomCodeInput"
-                            v-model="roomCodeInput"
-=======
                         <v-text-field v-model="name"
                             label="Name"
                             placeholder="Name"
@@ -40,17 +29,12 @@
                         ></v-text-field>
                         <v-text-field v-model="code"
                             label="Code"
->>>>>>> 6db868df6d29fbc6f953f8a80ad3fd7726fd626c
                             placeholder="Room Code"
                             solo
                             maxlength="4"
                         ></v-text-field>
-<<<<<<< HEAD
                         <v-btn dark @click = "login()">Login</v-btn>
                         <v-btn dark v-if= "authentication" @click = "startGame()"  >Start Game</v-btn>
-=======
-                        <v-btn dark v-on:click="messagemaker">Let's go</v-btn>
->>>>>>> 6db868df6d29fbc6f953f8a80ad3fd7726fd626c
                     </v-layout>
                 </v-container>
             </v-content>
@@ -70,7 +54,6 @@
 var app = new Vue({
     el: '#app',
     data: {
-<<<<<<< HEAD
         roomCode: "asdf",
         authentication: false,
         playerName: "",
@@ -105,24 +88,6 @@ var app = new Vue({
             console.log(this.authentication)
         }
         
-=======
-        msg: "Woot!",
-        word: "Applesauce",
-        message: "You go!",
-        name: null,
-        code: null,
-    },
-    methods:{
-        messagemaker: function(event){
-            let socket = io.connect('http://localhost:8080')
-
-            socket.on('message', (data) => {
-            console.log(data)
-            socket.emit('player event', {Name: this.name, Code: this.code})
-})
-            //alert(this.message)
-        }
->>>>>>> 6db868df6d29fbc6f953f8a80ad3fd7726fd626c
     }
 })
 

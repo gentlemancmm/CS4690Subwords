@@ -11,7 +11,9 @@
 <body>
     <!--Client Side for Player Additions-->
     <!--<script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>-->
+    <script src = "/socket.io/socket.io.js"></script>
     
+
     <div id="app">
         <v-app class="green darken-4 white--text">
             <v-content>
@@ -67,6 +69,8 @@
     4. Have the server print out the player name and room code
 */
 
+let socket = io.connect('http://localhost:8080')
+
 var app = new Vue({
     el: '#app',
     data: {
@@ -89,7 +93,6 @@ var app = new Vue({
     methods: {
         login: function(){
             // snackbar = true
-            console.log(this.username)
             if (this.playerName && this.roomCodeInput != "") {
                 if (this.roomCodeInput == this.roomCode) {
                     this.authentication = true
@@ -118,12 +121,7 @@ var app = new Vue({
         },
 
         messagemaker: function(event){
-            let socket = io.connect('http://localhost:8080')
-
-            socket.on('message', (data) => {
-                console.log(data)
-                socket.emit('player event', {Name: this.playerName, Code: this.roomCodeInput})
-            })
+            socket.emit('addPlayer', {Name: this.playerName, Code: this.roomCodeInput})
         }
     }
 })

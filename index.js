@@ -66,14 +66,14 @@ let io = socket(server)
 
 //Server Side
 io.on('connection', (socket) => {
-  console.log('Connection connected!')
+  console.log('Connection connected!: ', socket.id)
   socket.emit('message', {chris: 'Hi, how are you?'})
   socket.on('another event', (data) => {
     console.log(data)
   })
 
   socket.on('addPlayer', (data) => {
-    console.log("Player: ", data)
+    console.log("Player: ", data, socket.id)
   })
 })
 
@@ -87,7 +87,6 @@ introio.on('connection', (socket) => {
     players.forEach(function(data){
       console.log(data)
     })
-  })
 })
 
 
