@@ -31,8 +31,8 @@
                             solo
                             maxlength="4"
                         ></v-text-field>
-                        <v-btn dark @click="login(); snackbar = true">Login</v-btn>
-                        <v-btn dark v-if="authentication" @click = "messagemaker; startGame()"  >Start Game</v-btn>
+                        <v-btn dark @click="login()">Login</v-btn>
+                        <v-btn dark v-if="auth" @click = "startGame()"  >Start Game</v-btn>
                     </v-layout>
                     <v-snackbar
                         v-model="snackbar"
@@ -75,7 +75,7 @@ var app = new Vue({
 
         roomCode: "",
         roomCodeInput: "",
-        authentication: false,
+        auth: false,
         playerName: "",
         
         
@@ -94,27 +94,31 @@ var app = new Vue({
             console.log(data, this.roomCode)
         })
 
+        socket.on('goodName', () => {
+            console.log("GOOD")
+            this.auth = true
+            this.color = "success"
+            this.text = "Login Successful! Click Start to begin game."
+        })
+
         socket.on('badName', () => {
-            console.log('BAD')
-            this.authentication = false
+            console.log('BADN')
+            this.auth = false
             this.color = "error"
             this.text = "That username is already taken. Try another"
+        })
+
+        socket.on('badCode', () => {
+            console.log("BADC")
+            this.auth = false
+            this.color = "error"
+            this.text = "The username and/or password is incorrect. Try again"
         })
     },
     methods: {
         login: function(){
-            // snackbar = true
-            console.log(this.playerName, this.roomCodeInput, roomCode)
-            if (this.playerName && this.roomCodeInput != "") {
-                if (this.roomCodeInput == roomCode) {
-                    this.authentication = true
-                    this.color = "success"
-                    this.text = "Login Successful! Click Start to begin game."
-                    this.messagemaker()
-                } else {
-                    this.color = "error"
-                    this.text = "The username and/or password is incorrect. Try again"
-                }
+            if (this.playerName && this.roomCodeInput) {
+                socket.emit('authenticate', {Name: this.playerName, Code: this.roomCodeInput})
             } else {
                 this.color = "error"
                 this.text = "A username and password must be present."
@@ -122,17 +126,13 @@ var app = new Vue({
         },
 
         startGame: function(){
-            if (this.authentication == true){
+            if (this.auth){
                 // go to player.html
                 alert("ready set go")
             } else {
                 this.color = "error"
                 this.text = "please login with a valid username/room code."
             }
-        },
-
-        messagemaker: function(event){
-            socket.emit('addPlayer', {Name: this.playerName, Code: this.roomCodeInput})
         }
     }
 })
