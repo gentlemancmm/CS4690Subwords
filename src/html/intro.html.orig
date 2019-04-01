@@ -11,13 +11,18 @@
 <body>
     <!--Client Side for Player Additions-->
     <!--<script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>-->
-    
+    <script src = "/socket.io/socket.io.js"></script>
+    <script>
+       
+      
+    </script>
     <div id="app">
         <v-app class="green darken-4 white--text">
             <v-content>
                 <v-container>
                     <v-layout align-center justify-center column fill-height>
                         <h1 style="margin: 0.7em;">Join a Game</h1>
+<<<<<<< HEAD
                         <v-text-field
                             label="playerName"
                             v-model="playerName"
@@ -27,37 +32,32 @@
                         <v-text-field
                             label="roomCodeInput"
                             v-model="roomCodeInput"
+=======
+                        <v-text-field v-model="name"
+                            label="Name"
+                            placeholder="Name"
+                            solo
+                        ></v-text-field>
+                        <v-text-field v-model="code"
+                            label="Code"
+>>>>>>> 6db868df6d29fbc6f953f8a80ad3fd7726fd626c
                             placeholder="Room Code"
                             solo
                             maxlength="4"
                         ></v-text-field>
-                        <v-btn dark @click="login(); snackbar = true">Login</v-btn>
-                        <v-btn dark v-if="authentication" @click="startGame()"  >Start Game</v-btn>
+<<<<<<< HEAD
+                        <v-btn dark @click = "login()">Login</v-btn>
+                        <v-btn dark v-if= "authentication" @click = "startGame()"  >Start Game</v-btn>
+=======
+                        <v-btn dark v-on:click="messagemaker">Let's go</v-btn>
+>>>>>>> 6db868df6d29fbc6f953f8a80ad3fd7726fd626c
                     </v-layout>
-                    <v-snackbar
-                        v-model="snackbar"
-                        :color="color"
-                        :timeout="timeout"
-                        multi-line
-                        vertical
-                        top
-                        >
-                        {{ text }}
-                        <v-btn
-                        dark
-                        flat
-                        @click="snackbar = false"
-                        >
-                        Close
-                        </v-btn>
-                    </v-snackbar>
                 </v-container>
             </v-content>
         </v-app>
     </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
-<script src="/socket.io/socket.io.js"></script>
 <script>
 
 /*
@@ -67,43 +67,31 @@
     4. Have the server print out the player name and room code
 */
 
-let socket = io.connect('http://localhost:8080')
-
 var app = new Vue({
     el: '#app',
     data: {
+<<<<<<< HEAD
         roomCode: "asdf",
-        roomCodeInput: "",
         authentication: false,
         playerName: "",
+        roomCodeInput: ""
         
-        
-        snackbar: false,
-        timeout: 3000,
-        text: "",
-        color: "",
-
-        message: "hi i'm intro page"
-
-      
     },
     methods: {
         login: function(){
-            // snackbar = true
-            //console.log(this.username)
-            if (this.playerName && this.roomCodeInput != "") {
+            if (this.username != "" && this.roomCodeInput != "") {
                 if (this.roomCodeInput == this.roomCode) {
-                    this.authentication = true
-                    this.color = "success"
-                    this.text = "Login Successful! Click Start to begin game."
-                    this.messagemaker()
+
+                    this.authentication = true;
+                    alert("login successful")
+                    console.log(this.authentication)
                 } else {
-                    this.color = "error"
-                    this.text = "The username and/or password is incorrect. Try again"
-                }
+                    console.log("The username and / or password is incorrect");
+                    console.log(this.authentication)
+                    }
             } else {
-                this.color = "error"
-                this.text = "A username and password must be present."
+                console.log("A username and password must be present");
+                console.log(this.authentication)
             } 
         },
 
@@ -112,20 +100,29 @@ var app = new Vue({
                 // go to player.html
                 alert("ready set go")
             } else {
-                this.color = "error"
-                this.text = "please login with a valid username/room code."
+                alert("please login with a valid username/room code")
             }
             console.log(this.authentication)
-        },
-
-        messagemaker: function(event){
-            
-
-            //socket.on('message', (data) => {
-                //console.log(data)
-                socket.emit('addPlayer', {Name: this.playerName, Code: this.roomCodeInput})
-            })
         }
+        
+=======
+        msg: "Woot!",
+        word: "Applesauce",
+        message: "You go!",
+        name: null,
+        code: null,
+    },
+    methods:{
+        messagemaker: function(event){
+            let socket = io.connect('http://localhost:8080')
+
+            socket.on('message', (data) => {
+            console.log(data)
+            socket.emit('player event', {Name: this.name, Code: this.code})
+})
+            //alert(this.message)
+        }
+>>>>>>> 6db868df6d29fbc6f953f8a80ad3fd7726fd626c
     }
 })
 
