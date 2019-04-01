@@ -30,7 +30,11 @@ let app = express();
 // app.use(favicon(`${__dirname}/web/img/favicon.ico`))
 
 app.get('/', function(req, res) {
-  res.status(200).sendFile(`${__dirname}/src/html/index.html`)
+  // if (!homeSocket) {
+    res.status(200).sendFile(`${__dirname}/src/html/index.html`)
+  // } else {
+  //   res.redirect('/intro')
+  // }
 })
 
 app.get('/intro', function(req, res) {
@@ -63,18 +67,42 @@ const server = app.listen(process.env.PORT, process.env.IP, 511, function() {
 
 //start the socket
 let io = socket(server)
+let homeSocket;
+let roomCode
+let players = {}
 
 //Server Side
 io.on('connection', (socket) => {
-  console.log('Connection connected!: ', socket.id)
-  socket.emit('message', {chris: 'Hi, how are you?'})
-  socket.on('another event', (data) => {
+  console.log("Socket Connected: ", socket.id)
+  if (!homeSocket) {
+    homeSocket = socket
+  }
+
+  socket.on('authenticate', (data) => {
     console.log(data)
+    if (data.Code != roomCode){
+      console.log("BAD CODE")
+      socket.emit('badCode')
+    } else if (players[data.Name]) {
+      console.log("BAD NAME")
+      socket.emit('badName')
+    } else {
+      console.log("ALL GOOD")
+      players[data.Name] = {name: data.Name, pts: 0, socketId: socket.id}
+      homeSocket.emit("players", Object.keys(players))
+      socket.emit('goodName')
+    }
   })
 
-  socket.on('addPlayer', (data) => {
-    console.log("Player: ", data, socket.id)
+  socket.on('roomCode', (data) => {
+    roomCode = data
+    socket.broadcast.emit('newRoomCode', roomCode)
   })
+
+  if (roomCode) {
+    socket.emit('newRoomCode', roomCode)
+  }
+
 })
 
 /* var playerArray = new Vue ({
