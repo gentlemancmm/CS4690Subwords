@@ -25,10 +25,13 @@
                         <v-flex> 
                              <v-card>
                                 <v-card-text>
-                                    <v-text-field v-model="value" :mask="mask" label="Type Answer" :maxlength="max"></v-text-field>
+                                    <v-text-field v-model="value" label="Type Answer" :maxlength="max"></v-text-field>
                                 </v-card-text>
+                                <v-btn dark @click="sendWord()">
+                                    Submit
+                                </v-btn>
                             </v-card>
-                                
+                            <h2>Points: {{ player.pts }}</h2>
                         </v-flex>
                     </v-layout>
                 </v-container>
@@ -39,17 +42,43 @@
     </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script>
+
+let socket = io.connect('http://localhost:8080')
 
 var app = new Vue({
     el: '#app',
     data: {
-        msg: "yolo, players play",
         word: "Dog",
+        value: "",
         max: 3,
         player: {
             pts: 0,
             name: ""
+        }
+    },
+    mounted() {
+        socket.on("addPoints", (data) => {
+            app.player.pts += data
+            app.value = ""
+            console.log("PTS", app.player)
+        })
+
+        socket.on('badGuess', () => {
+            console.log("BAD")
+            app.value = ""
+        })
+
+        socket.on('newWord', (data) => {
+            app.word = data.word
+            app.max = app.word.length
+            console.log("newWord: ", app.word)
+        })
+    },
+    methods: {
+        sendWord: function () {
+            socket.emit('guess', app.value)
         }
     }
 })
