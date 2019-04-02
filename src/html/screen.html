@@ -32,6 +32,85 @@
                                 <v-btn dark >Continue to next word</v-btn>
                         </v-flex>             
                     </v-layout>
+
+
+
+
+
+
+                    <div
+                    id="e3"
+                    style="max-width: 400px; margin: auto;"
+                    class="grey lighten-3"
+    >
+        <v-toolbar color="pink" dark>
+            <v-toolbar-title >{{word}}</v-toolbar-title>
+            <v-spacer></v-spacer>
+        </v-toolbar>
+  
+      <v-card>
+        <v-container
+          fluid
+          grid-list-lg
+        >
+          <v-layout row wrap>
+            <v-flex xs12>
+              <v-card color="blue-grey darken-2" class="white--text">
+                <v-card-title primary-title>
+                  <div>
+                    <div class="headline">{{word}}</div>
+                    
+                  </div>
+                </v-card-title>
+              </v-card>
+            </v-flex>
+  
+            <v-flex xs12>
+              <v-card color="cyan darken-2" class="white--text">
+                <v-layout>
+                  <v-flex xs7>
+                    <v-card-title primary-title>
+                      <div>
+                        <div class="headline">{{word}}</div>
+                      </div>
+                    </v-card-title>
+                  </v-flex>
+                </v-layout>
+                <v-divider light></v-divider>
+              </v-card>
+            </v-flex>
+  
+            <v-flex xs12>
+              <v-card color="purple" class="white--text">
+                <v-layout row>
+                  <v-flex xs7>
+                    <v-card-title primary-title>
+                      <div>
+                        <div class="headline">{{word}}</div>
+                      </div>
+                    </v-card-title>
+                  </v-flex>
+                </v-layout>
+              </v-card>
+            </v-flex>
+          </v-layout>
+        </v-container>
+      </v-card>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </v-container>
             </v-content>
         </v-app>
@@ -53,8 +132,8 @@ var app = new Vue({
     data: {
         word: "Applesauce",
         subwords: [
-            "app",
-            "sauce",
+            "app", 
+            "sauce", 
             "lap",
             "pep",
             "pup",
