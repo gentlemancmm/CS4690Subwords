@@ -56,16 +56,6 @@ app.get('/subwords', function(req, res) {
   res.status(200).sendFile(`${__dirname}/subwordsSmall.json`)
 })
 
-app.get('/test', function(req, res) {
-  axios.get(`http://${process.env.IP}:${process.env.PORT}/subwords`).then(data => {
-    console.log("DAT: ", data)
-  })
-  .catch(err => {
-    console.log("ERR: ", err)
-  })
-  res.status(200).send("Woot")
-})
-
 app.get('*', function(req, res) {
 //   res.status(404).sendFile(`${__dirname}/web/html/404.html`);
     res.status(404).send("wat?")
@@ -97,7 +87,6 @@ io.on('connection', (socket) => {
   }
 
   socket.on('authenticate', (data) => {
-    console.log(data)
     if (data.Code != roomCode){
       socket.emit('badCode')
     } else if (players[data.Name]) {
@@ -130,7 +119,7 @@ io.on('connection', (socket) => {
           newSubs.push(...subs)
         })
       }
-      socket.broadcast.emit('newWord', { word: allWords[rand][rand2].word, subwords: newSubs})
+      homeSocket.broadcast.emit('newWord', { word: allWords[rand][rand2].word, subwords: newSubs})
       current = allWords[rand][rand2].word
       subwords = newSubs
     } else {
@@ -146,7 +135,7 @@ io.on('connection', (socket) => {
             newSubs.push(...subs)
           })
         }
-        socket.broadcast.emit('newWord', { word: allWords[rand][rand2].word, subwords: newSubs})
+        homeSocket.broadcast.emit('newWord', { word: allWords[rand][rand2].word, subwords: newSubs})
         current = allWords[rand][rand2].word
         subwords = newSubs
       }).then(err => {
@@ -158,10 +147,13 @@ io.on('connection', (socket) => {
   socket.on('guess', (data) => {
     if (subwords.includes(data)){
       subwords.splice(subwords.indexOf(data), 1)
-      socket.emit('addPoints', data.length) 
+      socket.emit('addPoints', data.length)
     } else {
       socket.emit('badGuess')
     }
+    // ***
+    socket.broadcast.emit('test2')
+    // ***
   })
 
   if (roomCode) {

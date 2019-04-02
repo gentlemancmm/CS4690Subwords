@@ -58,7 +58,6 @@ var app = new Vue({
     },
     mounted() {
         socket.on('newWord', (data) => {
-            console.log("NEW", data)
             app.word = data.word
             app.subwords = data.subwords
         })
@@ -69,7 +68,6 @@ var app = new Vue({
             socket.emit('nextWord')
         }
     }
-    
 })
 
 </script>
