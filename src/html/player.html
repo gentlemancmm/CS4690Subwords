@@ -62,15 +62,18 @@ var app = new Vue({
         socket.on("addPoints", (data) => {
             app.player.pts += data
             app.value = ""
+            console.log("PTS", app.player)
         })
 
         socket.on('badGuess', () => {
+            console.log("BAD")
             app.value = ""
         })
 
         socket.on('newWord', (data) => {
             app.word = data.word
             app.max = app.word.length
+            console.log("newWord: ", app.word)
         })
     },
     methods: {

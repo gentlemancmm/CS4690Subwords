@@ -51,7 +51,6 @@ var app = new Vue({
     },
     mounted() {
         this.roomCode = Math.random().toString(36).slice(2, 6).toUpperCase()
-        // this.roomCode = "asdf"
         socket.emit('roomCode', this.roomCode)
 
         socket.on('players', (data) => {
