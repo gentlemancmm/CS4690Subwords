@@ -4,6 +4,7 @@ console.log('Loading Server ...')
 //load core modules
 const express = require('express')
 let socket = require('socket.io')
+const axios = require('axios')
 
 //load expess middleware
 // const compression = require('compression');
@@ -42,19 +43,33 @@ app.get('/intro', function(req, res) {
 })
 
 app.get('/player', function(req, res) {
- res.status(200).sendFile(`${__dirname}/src/html/player.html`);
+ res.status(200).sendFile(`${__dirname}/src/html/player.html`)
  //res.status(200).send("Players gon play");
 })
 
 app.get('/screen', function(req, res) {
-  res.status(200).sendFile(`${__dirname}/src/html/screen.html`);
+  res.status(200).sendFile(`${__dirname}/src/html/screen.html`)
   //res.status(200).send("Players gon play");
- })
+})
+
+app.get('/subwords', function(req, res) {
+  res.status(200).sendFile(`${__dirname}/subwordsSmall.json`)
+})
+
+app.get('/test', function(req, res) {
+  axios.get(`http://${process.env.IP}:${process.env.PORT}/subwords`).then(data => {
+    console.log("DAT: ", data)
+  })
+  .catch(err => {
+    console.log("ERR: ", err)
+  })
+  res.status(200).send("Woot")
+})
 
 app.get('*', function(req, res) {
 //   res.status(404).sendFile(`${__dirname}/web/html/404.html`);
     res.status(404).send("wat?")
-});
+})
 
 // Wasap
 
@@ -72,6 +87,7 @@ let roomCode
 let players = {}
 let current = ''
 let subwords = []
+let allWords = []
 
 //Server Side
 io.on('connection', (socket) => {
@@ -103,18 +119,45 @@ io.on('connection', (socket) => {
   })
 
   socket.on('nextWord', () => {
-    console.log("NEXT")
-    console.log(players)
-    subwords = ["du", "edd", "ed", "e"]
-    current = "dude"
-    socket.broadcast.emit('newWord', { word: current, subwords: subwords})
+    if (allWords.length){
+      let newSubs = []
+      let rand, rand2
+      while (!newSubs.length){
+        rand = randomIndex(2, allWords.length)
+        rand2 = randomIndex(0, allWords[rand].length)
+        newSubs = []
+        allWords[rand][rand2].subwords.forEach(subs => {
+          newSubs.push(...subs)
+        })
+      }
+      socket.broadcast.emit('newWord', { word: allWords[rand][rand2].word, subwords: newSubs})
+      current = allWords[rand][rand2].word
+      subwords = newSubs
+    } else {
+      axios.get(`http://${process.env.IP}:${process.env.PORT}/subwords`).then(words => {
+        allWords = words.data
+        let newSubs = []
+        let rand, rand2
+        while (!newSubs.length){
+          rand = randomIndex(2, allWords.length)
+          rand2 = randomIndex(0, allWords[rand].length)
+          newSubs = []
+          allWords[rand][rand2].subwords.forEach(subs => {
+            newSubs.push(...subs)
+          })
+        }
+        socket.broadcast.emit('newWord', { word: allWords[rand][rand2].word, subwords: newSubs})
+        current = allWords[rand][rand2].word
+        subwords = newSubs
+      }).then(err => {
+        console.error(err)
+      })
+    }
   })
 
   socket.on('guess', (data) => {
-    console.log("GUESS: ", data)
     if (subwords.includes(data)){
       subwords.splice(subwords.indexOf(data), 1)
-      console.log("GUESSED: ", subwords)
       socket.emit('addPoints', data.length) 
     } else {
       socket.emit('badGuess')
@@ -127,27 +170,9 @@ io.on('connection', (socket) => {
 
 })
 
-
-/*
-//Server side for intro.html
-introio.on('connection', (socket) => {
-  console.log('We have a player!')
-  socket.emit('message', {server: 'Are you the new player?'})
-  socket.on('player event', (data) => {
-    console.log(data)
-    let players = []
-    players.forEach(function(data){
-      console.log(data)
-    })
-})
-})
-
-*/
-
-
-
-
-
+function randomIndex(min, max) {
+  return Math.floor(Math.random() * (max - min) + min);
+}
 
 //server close functions
 function gracefulShutdown() {
