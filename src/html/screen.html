@@ -63,11 +63,16 @@ var app = new Vue({
             app.subwords = data.subwords
         })
         socket.emit('nextWord')
+
+        socket.on('testWord', () => {
+            console.log("I am the Master, and you will obey me!")
+        })
     },
     methods: {
         next: function () {
             socket.emit('nextWord')
-        }
+        },
+
     }
     
 })

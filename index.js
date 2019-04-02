@@ -121,6 +121,10 @@ io.on('connection', (socket) => {
     }
   })
 
+  socket.on('testWord', () => {
+    console.log('Who are you?')
+  })
+
   if (roomCode) {
     socket.emit('newRoomCode', roomCode)
   }
