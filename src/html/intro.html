@@ -33,7 +33,7 @@
                             solo
                             maxlength="4"
                         ></v-text-field>
-                        <v-btn dark v-if="!auth" @click="login(); snackbar = true">Login</v-btn>
+                        <v-btn dark v-if="!auth" @click="login(); snackbar= true">Login</v-btn>
                         <v-btn dark v-if="auth" @click = "startGame()"  >Start Game</v-btn>
                     </v-layout>
                     <v-snackbar

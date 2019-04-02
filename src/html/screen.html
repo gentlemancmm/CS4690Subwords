@@ -14,108 +14,98 @@
             <v-content>
                 <v-container>
                     <v-layout align-center justify-center column fill-height>
-                        <v-flex xs4 align-content-center justify-center >
+                        <v-flex>
                             <h1 
                             style="margin: 0.7em"
-                            font-size="1.5em"
-                            >Subwords The Game</h1>
-                        </v-flex>
-                        <v-flex>
-                            <h2>{{word}}</h2>
-                        </v-flex>
-                        <v-flex>
-                            <ul>
-                                <li v-for="subword in subwords">{{subwords}}</li>
-                            </ul>
-                        </v-flex>
-                        <v-flex>
-                                <v-btn dark @click="next()">Continue to next word</v-btn>
-                        </v-flex>             
+                            font-size="3em"
+                            >SUBWORD GAME</h1>
+                        </v-flex>            
                     </v-layout>
-
-
-
-
-
-
                     <div
                     id="e3"
                     style="max-width: 400px; margin: auto;"
-                    class="grey lighten-3"
-    >
-        <v-toolbar color="pink" dark>
-            <v-toolbar-title >{{word}}</v-toolbar-title>
-            <v-spacer></v-spacer>
-        </v-toolbar>
-  
-      <v-card>
-        <v-container
-          fluid
-          grid-list-lg
-        >
-          <v-layout row wrap>
-            <v-flex xs12>
-              <v-card color="blue-grey darken-2" class="white--text">
-                <v-card-title primary-title>
-                  <div>
-                    <div class="headline">{{word}}</div>
-                    
-                  </div>
-                </v-card-title>
-              </v-card>
-            </v-flex>
-  
-            <v-flex xs12>
-              <v-card color="cyan darken-2" class="white--text">
-                <v-layout>
-                  <v-flex xs7>
-                    <v-card-title primary-title>
-                      <div>
-                        <div class="headline">{{word}}</div>
-                      </div>
-                    </v-card-title>
-                  </v-flex>
-                </v-layout>
-                <v-divider light></v-divider>
-              </v-card>
-            </v-flex>
-  
-            <v-flex xs12>
-              <v-card color="purple" class="white--text">
-                <v-layout row>
-                  <v-flex xs7>
-                    <v-card-title primary-title>
-                      <div>
-                        <div class="headline">{{word}}</div>
-                      </div>
-                    </v-card-title>
-                  </v-flex>
-                </v-layout>
-              </v-card>
-            </v-flex>
-          </v-layout>
-        </v-container>
-      </v-card>
-    </div>
+                    class="md-layout-item md-layout md-gutter">
+                        <v-toolbar dark>
+                            <v-toolbar-title >"dog"</v-toolbar-title>
+                        </v-toolbar>
 
 
+                        <v-card color="blue-grey darken-2">
+                          <v-container fluid grid-list-lg>
+                            <v-layout row wrap class="md-layout-item">
+                                <v-flex xs12>
+                                    <v-card color="yellow darken-2" class="white--text">
+                                        <v-layout>
+                                            <v-flex xs7>
+                                                <v-card-title primary-title>
+                                                    <div>
+                                                        <div class="headline">{{ word }}</div>
+                                                    </div>
+                                                </v-card-title>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-divider light></v-divider>
+                                    </v-card>
+                                </v-flex>
+                                
 
+                                <v-flex xs12>
+                                        <v-card color="yellow darken-2" class="white--text">
+                                            <v-layout>
+                                            <v-flex xs7>
+                                                <v-card-title primary-title>
+                                                <div>
+                                                    <div class="headline">{{word}}</div>
+                                                </div>
+                                                </v-card-title>
+                                            </v-flex>
+                                            </v-layout>
+                                            <v-divider light></v-divider>
+                                        </v-card>
+                                        </v-flex>
+                        
+                                <v-flex xs12>
+                                    <v-card color="cyan" class="white--text">
+                                    <v-layout>
+                                        <v-flex xs7>
+                                        <v-card-title primary-title>
+                                            <div>
+                                            <div class="headline">"Cat"</div>
+                                            </div>
+                                        </v-card-title>
+                                        </v-flex>
+                                    </v-layout>
+                                    <v-divider light></v-divider>
+                                    </v-card>
+                                </v-flex>
+                        
+                                <v-flex xs12>
+                                    <v-card color="yellow darken-2" class="white--text">
+                                    <v-layout row>
+                                        <v-flex xs7>
+                                        <v-card-title primary-title>
+                                            <div>
+                                            <div class="headline">{{word}}</div>
+                                            </div>
+                                        </v-card-title>
+                                        </v-flex>
+                                    </v-layout>
+                                    </v-card>
+                                </v-flex>
 
+                              </v-layout>
+                            </v-container>
+                        </v-card>   
+                    </div>
 
-
-
-
-
-
-
-
-
-
+                    <v-layout align-center justify-center column fill-height>
+                        <v-flex>
+                            <v-btn dark @click="next()">Continue to next word</v-btn>
+                        </v-flex> 
+                    </v-layout>
                 </v-container>
             </v-content>
         </v-app>
-
-
     </div>
 </body> 
 

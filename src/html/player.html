@@ -12,28 +12,41 @@
     <div id="app">
         <v-app class="green darken-4 white--text">
             <v-content>
-                <v-container fill-height align-center>
-                    <v-layout fill-height align-center justify-center column>
-                        <v-flex xs4 align-content-center justify-center >
-                            <h1 
+                <v-container>
+                    <v-layout align-center justify-center column fill-height>
+                            <h1  
                             style="margin: 0.7em"
                             font-size ="1.5em"
                             class="display-word" 
-                            >
-                            {{ word }}</h1>
-                        </v-flex> 
-                        <v-flex> 
+                            >{{ word }}</h1>
                              <v-card>
                                 <v-card-text>
                                     <v-text-field v-model="value" label="Type Answer" :maxlength="max"></v-text-field>
                                 </v-card-text>
-                                <v-btn dark @click="sendWord()">
-                                    Submit
-                                </v-btn>
                             </v-card>
+                            <v-btn justify-center dark @click="sendWord(); snackbar= true">
+                                    Submit
+                            </v-btn>
                             <h2>Points: {{ player.pts }}</h2>
-                        </v-flex>
+                        
                     </v-layout>
+                    <v-snackbar
+                        v-model="snackbar"
+                        :color="color"
+                        :timeout="timeout"
+                        multi-line
+                        vertical
+                        top
+                        >
+                        {{ text }}
+                        <v-btn
+                        dark
+                        flat
+                        @click="snackbar = false"
+                        >
+                        Close
+                        </v-btn>
+                    </v-snackbar>
                 </v-container>
             </v-content>
         </v-app>
@@ -50,24 +63,32 @@ let socket = io.connect('http://localhost:8080')
 var app = new Vue({
     el: '#app',
     data: {
-        word: "Dog",
+        word: "",
         value: "",
         max: 3,
         player: {
             pts: 0,
             name: ""
-        }
+        },
+        snackbar: false,
+        timeout: 3000,
+        text: "",
+        color: "",
     },
     mounted() {
         socket.on("addPoints", (data) => {
             app.player.pts += data
             app.value = ""
             console.log("PTS", app.player)
+            app.color = "success"
+            app.text = "CORRECT! You found a SubWord!"
         })
 
         socket.on('badGuess', () => {
             console.log("BAD")
             app.value = ""
+            app.color = "error"
+            app.text = "WRONG! That is not a SubWord. Try Again"
         })
 
         socket.on('newWord', (data) => {
