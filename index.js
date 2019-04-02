@@ -70,6 +70,8 @@ let io = socket(server)
 let homeSocket;
 let roomCode
 let players = {}
+let current = ''
+let subwords = []
 
 //Server Side
 io.on('connection', (socket) => {
@@ -81,13 +83,10 @@ io.on('connection', (socket) => {
   socket.on('authenticate', (data) => {
     console.log(data)
     if (data.Code != roomCode){
-      console.log("BAD CODE")
       socket.emit('badCode')
     } else if (players[data.Name]) {
-      console.log("BAD NAME")
       socket.emit('badName')
     } else {
-      console.log("ALL GOOD")
       players[data.Name] = {name: data.Name, pts: 0, socketId: socket.id}
       homeSocket.emit("players", Object.keys(players))
       socket.emit('goodName')
@@ -99,20 +98,55 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('newRoomCode', roomCode)
   })
 
+  socket.on('start', () => {
+    socket.broadcast.emit('startGame')
+  })
+
+  socket.on('nextWord', () => {
+    console.log("NEXT")
+    console.log(players)
+    subwords = ["du", "edd", "ed", "e"]
+    current = "dude"
+    socket.broadcast.emit('newWord', { word: current, subwords: subwords})
+  })
+
+  socket.on('guess', (data) => {
+    console.log("GUESS: ", data)
+    if (subwords.includes(data)){
+      subwords.splice(subwords.indexOf(data), 1)
+      console.log("GUESSED: ", subwords)
+      socket.emit('addPoints', data.length) 
+    } else {
+      socket.emit('badGuess')
+    }
+  })
+
   if (roomCode) {
     socket.emit('newRoomCode', roomCode)
   }
 
 })
 
-/* var playerArray = new Vue ({
-  el: '#app',
-  data:{
-    players:[
-      
-    ]
-  }
-}) */
+
+/*
+//Server side for intro.html
+introio.on('connection', (socket) => {
+  console.log('We have a player!')
+  socket.emit('message', {server: 'Are you the new player?'})
+  socket.on('player event', (data) => {
+    console.log(data)
+    let players = []
+    players.forEach(function(data){
+      console.log(data)
+    })
+})
+})
+
+*/
+
+
+
+
 
 
 //server close functions
