@@ -7,35 +7,21 @@ let socket = require('socket.io')
 const axios = require('axios')
 
 //load expess middleware
-// const compression = require('compression');
-// const logger = require('morgan');
-// const favicon = require('serve-favicon');
-// const path = require('path');
-// const bodyParser = require('body-parser');
-
-// const MongoClient = require('mongodb').MongoClient;
-// const helmet = require('helmet');
+const compression = require('compression');
+const logger = require('morgan');
 
 let app = express();
-//app.use(express.static(`${__dirname}/src/html`))
-// app.use(express.static(`${__dirname}/web`));
-// app.use(bodyParser.json());
-// app.use(bodyParser.urlencoded({ extended: true })); // for parsing 
-// app.use(logger("short"));
 
 //use the middleware
-// app.use(logger('dev'));
-
-// app.use(compression());
-
-// app.use(favicon(`${__dirname}/web/img/favicon.ico`))
+app.use(logger('dev'));
+app.use(compression());
 
 app.get('/', function(req, res) {
-  // if (!homeSocket) {
+  if (!homeSocket) {
     res.status(200).sendFile(`${__dirname}/src/html/index.html`)
-  // } else {
-  //   res.redirect('/intro')
-  // }
+  } else {
+    res.redirect('/intro')
+  }
 })
 
 app.get('/intro', function(req, res) {
@@ -44,12 +30,10 @@ app.get('/intro', function(req, res) {
 
 app.get('/player', function(req, res) {
  res.status(200).sendFile(`${__dirname}/src/html/player.html`)
- //res.status(200).send("Players gon play");
 })
 
 app.get('/screen', function(req, res) {
   res.status(200).sendFile(`${__dirname}/src/html/screen.html`)
-  //res.status(200).send("Players gon play");
 })
 
 app.get('/subwords', function(req, res) {
@@ -57,7 +41,6 @@ app.get('/subwords', function(req, res) {
 })
 
 app.get('*', function(req, res) {
-//   res.status(404).sendFile(`${__dirname}/web/html/404.html`);
     res.status(404).send("wat?")
 })
 
@@ -81,7 +64,7 @@ let allWords = []
 
 //Server Side
 io.on('connection', (socket) => {
-  console.log("Socket Connected: ", socket.id)
+  console.log('Socket Connected: ', socket.id)
   if (!homeSocket) {
     homeSocket = socket
   }
@@ -93,7 +76,7 @@ io.on('connection', (socket) => {
       socket.emit('badName')
     } else {
       players[data.Name] = {name: data.Name, pts: 0, socketId: socket.id}
-      homeSocket.emit("players", Object.keys(players))
+      homeSocket.emit('players', Object.keys(players))
       socket.emit('goodName')
     }
   })
@@ -151,9 +134,6 @@ io.on('connection', (socket) => {
     } else {
       socket.emit('badGuess')
     }
-    // ***
-    socket.broadcast.emit('test2')
-    // ***
   })
 
   if (roomCode) {
