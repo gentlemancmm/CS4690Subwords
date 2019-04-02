@@ -11,13 +11,15 @@
 <body>
     <!--Client Side for Player Additions-->
     <!--<script src = "https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.2.0/socket.io.dev.js"></script>-->
+    <script src = "/socket.io/socket.io.js"></script>
     
+
     <div id="app">
         <v-app class="green darken-4 white--text">
             <v-content>
                 <v-container>
                     <v-layout align-center justify-center column fill-height>
-                        <h1 style="margin: 0.7em;">Join a Game</h1>
+                        <h1 style="margin: 0.7em">Join a Game</h1>
                         <v-text-field
                             label="playerName"
                             v-model="playerName"
@@ -31,7 +33,7 @@
                             solo
                             maxlength="4"
                         ></v-text-field>
-                        <v-btn dark @click="login()">Login</v-btn>
+                        <v-btn dark v-if="!auth" @click="login(); snackbar = true">Login</v-btn>
                         <v-btn dark v-if="auth" @click = "startGame()"  >Start Game</v-btn>
                     </v-layout>
                     <v-snackbar
@@ -95,24 +97,25 @@ var app = new Vue({
         })
 
         socket.on('goodName', () => {
-            console.log("GOOD")
-            this.auth = true
-            this.color = "success"
-            this.text = "Login Successful! Click Start to begin game."
+            app.auth = true
+            app.color = "success"
+            app.text = "Login Successful! Click Start to begin game."
         })
 
         socket.on('badName', () => {
-            console.log('BADN')
-            this.auth = false
-            this.color = "error"
-            this.text = "That username is already taken. Try another"
+            app.auth = false
+            app.color = "error"
+            app.text = "That username is already taken. Try another"
         })
 
         socket.on('badCode', () => {
-            console.log("BADC")
-            this.auth = false
-            this.color = "error"
-            this.text = "The username and/or password is incorrect. Try again"
+            app.auth = false
+            app.color = "error"
+            app.text = "The username and/or password is incorrect. Try again"
+        })
+
+        socket.on('startGame', () => {
+            window.location.pathname = '/player'
         })
     },
     methods: {
@@ -127,8 +130,8 @@ var app = new Vue({
 
         startGame: function(){
             if (this.auth){
-                // go to player.html
-                alert("ready set go")
+                socket.emit('start')
+                window.location.pathname = '/player'
             } else {
                 this.color = "error"
                 this.text = "please login with a valid username/room code."

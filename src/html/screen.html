@@ -8,34 +8,66 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Subwords Screen</title>
 </head>
-<body style="background-color: #1B5E20; color:white;">
+<body>
     <div id="app">
-        <h1>SubWords Presents...</h1>
+        <v-app class="green darken-4 white--text">
+            <v-content>
+                <v-container>
+                    <v-layout align-center justify-center column fill-height>
+                        <v-flex xs4 align-content-center justify-center >
+                            <h1 
+                            style="margin: 0.7em"
+                            font-size="1.5em"
+                            >Subwords The Game</h1>
+                        </v-flex>
+                        <v-flex>
+                            <h2>{{word}}</h2>
+                        </v-flex>
+                        <v-flex>
+                            <ul>
+                                <li v-for="subword in subwords">{{subwords}}</li>
+                            </ul>
+                        </v-flex>
+                        <v-flex>
+                                <v-btn dark @click="next()">Continue to next word</v-btn>
+                        </v-flex>             
+                    </v-layout>
+                </v-container>
+            </v-content>
+        </v-app>
 
-        <h2>{{word}}</h2>
-        <ul>
-            <li v-for="subword in subwords">{{subword}}</li>
-        </ul>
+
+    </div>
+</body> 
 
 
         
     </div>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuetify/dist/vuetify.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script>
+
+let socket = io.connect('http://localhost:8080')
 
 var app = new Vue({
     el: '#app',
     data: {
-        word: "Applesauce",
-        subwords: [
-            "app",
-            "sauce",
-            "lap",
-            "pep",
-            "pup",
-            "slap"
-        ]
+        word: "",
+        subwords: []
+    },
+    mounted() {
+        socket.on('newWord', (data) => {
+            console.log("NEW", data)
+            app.word = data.word
+            app.subwords = data.subwords
+        })
+        socket.emit('nextWord')
+    },
+    methods: {
+        next: function () {
+            socket.emit('nextWord')
+        }
     }
     
 })
