@@ -26,7 +26,7 @@
                     style="max-width: 400px; margin: auto;"
                     class="md-layout-item md-layout md-gutter">
                         <v-toolbar dark>
-                            <v-toolbar-title >"dog"</v-toolbar-title>
+                            <v-toolbar-title >{{ word }}</v-toolbar-title>
                         </v-toolbar>
 
 
@@ -85,7 +85,7 @@
                                         <v-flex xs7>
                                         <v-card-title primary-title>
                                             <div>
-                                            <div class="headline">{{word}}</div>
+                                            <div class="headline">{{ subwords }}</div>
                                             </div>
                                         </v-card-title>
                                         </v-flex>
@@ -127,11 +127,11 @@ var app = new Vue({
     },
     mounted() {
         socket.on('newWord', (data) => {
-            console.log("NEW", data)
+            console.log("newWord: ", app.word)
             app.word = data.word
             app.subwords = data.subwords
         })
-        socket.emit('nextWord')
+        
     },
     methods: {
         next: function () {
