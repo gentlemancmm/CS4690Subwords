@@ -79,13 +79,9 @@ var app = new Vue({
         socket.on("addPoints", (data) => {
             app.player.pts += data
             app.value = ""
-            console.log("PTS", app.player)
-            app.color = "success"
-            app.text = "CORRECT! You found a SubWord!"
         })
 
         socket.on('badGuess', () => {
-            console.log("BAD")
             app.value = ""
             app.color = "error"
             app.text = "WRONG! That is not a SubWord. Try Again"
@@ -94,7 +90,6 @@ var app = new Vue({
         socket.on('newWord', (data) => {
             app.word = data.word
             app.max = app.word.length
-            console.log("newWord: ", app.word)
         })
     },
     methods: {
