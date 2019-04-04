@@ -36,7 +36,7 @@ app.get('/screen', function(req, res) {
 })
 
 app.get('/subwords', function(req, res) {
-  res.status(200).sendFile(`${__dirname}/subwordsSmall.json`)
+  res.status(200).sendFile(`${__dirname}/subwords.json`)
 })
 
 app.get('*', function(req, res) {
