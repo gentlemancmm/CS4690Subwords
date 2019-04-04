@@ -62,56 +62,46 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
 
-/*
-    1. Get socket communicating (start socket, emit message back to server, server prints message)
-    2. Use Vue to print out a message when you click on "Let's go" (with a function)
-    3. Change that function to 'emit' a message back to the server with player name and room code
-    4. Have the server print out the player name and room code
-*/
-
 let socket = io.connect('http://localhost:8080')
 
 var app = new Vue({
     el: '#app',
     data: {
 
-        roomCode: "",
-        roomCodeInput: "",
+        roomCode: '',
+        roomCodeInput: '',
         auth: false,
-        playerName: "",
+        playerName: '',
         
         
         snackbar: false,
         timeout: 3000,
-        text: "",
-        color: "",
-
-        message: "hi i'm intro page"
+        text: '',
+        color: '',
 
       
     },
     mounted: () => {
         socket.on('newRoomCode', (data) => {
             this.roomCode = data
-            console.log(data, this.roomCode)
         })
 
         socket.on('goodName', () => {
             app.auth = true
-            app.color = "success"
-            app.text = "Login Successful! Click Start to begin game."
+            app.color = 'success'
+            app.text = 'Login Successful! Click Start to begin game.'
         })
 
         socket.on('badName', () => {
             app.auth = false
-            app.color = "error"
-            app.text = "That username is already taken. Try another"
+            app.color = 'error'
+            app.text = 'That username is already taken. Try another'
         })
 
         socket.on('badCode', () => {
             app.auth = false
-            app.color = "error"
-            app.text = "The username and/or password is incorrect. Try again"
+            app.color = 'error'
+            app.text = 'The username and/or password is incorrect. Try again'
         })
 
         socket.on('startGame', () => {
@@ -123,8 +113,8 @@ var app = new Vue({
             if (this.playerName && this.roomCodeInput) {
                 socket.emit('authenticate', {Name: this.playerName, Code: this.roomCodeInput})
             } else {
-                this.color = "error"
-                this.text = "A username and password must be present."
+                this.color = 'error'
+                this.text = 'A username and password must be present.'
             } 
         },
 
@@ -133,8 +123,8 @@ var app = new Vue({
                 socket.emit('start')
                 window.location.pathname = '/player'
             } else {
-                this.color = "error"
-                this.text = "please login with a valid username/room code."
+                this.color = 'error'
+                this.text = 'please login with a valid username/room code.'
             }
         }
     }

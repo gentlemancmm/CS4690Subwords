@@ -57,30 +57,30 @@ let socket = io.connect('http://localhost:8080')
 var app = new Vue({
     el: '#app',
     data: {
-        word: "",
-        value: "",
+        word: '',
+        value: '',
         max: 3,
         player: {
             pts: 0,
-            name: ""
+            name: ''
         },
         snackbar: false,
         timeout: 950,
-        text: "",
-        color: "",
+        text: '',
+        color: '',
     },
     mounted() {
-        socket.on("addPoints", (data) => {
+        socket.on('addPoints', (data) => {
             app.player.pts += data
-            app.value = ""
-            app.color = "success"
-            app.text = "Correct"
+            app.value = ''
+            app.color = 'success'
+            app.text = 'Correct'
         })
 
         socket.on('badGuess', () => {
-            app.value = ""
-            app.color = "error"
-            app.text = "WRONG! That is not a SubWord. Try Again"
+            app.value = ''
+            app.color = 'error'
+            app.text = 'WRONG! That is not a SubWord. Try Again'
         })
 
         socket.on('newWord', (data) => {
