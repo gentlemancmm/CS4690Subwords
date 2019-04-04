@@ -33,70 +33,38 @@
                         <v-card color="blue-grey darken-2">
                           <v-container fluid grid-list-lg>
                             <v-layout row wrap class="md-layout-item">
-                                <v-flex xs12>
-                                    <v-card color="yellow darken-2" class="white--text">
-                                        <v-layout>
-                                            <v-flex xs7>
-                                                <v-card-title primary-title>
-                                                    <div>
-                                                        <div class="headline">{{ word }}</div>
-                                                    </div>
-                                                </v-card-title>
-                                            </v-flex>
-                                        </v-layout>
-                                        <v-divider light></v-divider>
-                                    </v-card>
-                                </v-flex>
+                               
                                 
 
-                                <v-flex xs12>
-                                        <v-card color="yellow darken-2" class="white--text">
-                                            <v-layout>
-                                            <v-flex xs7>
-                                                <v-card-title primary-title>
-                                                <div>
-                                                    <div class="headline">{{word}}</div>
-                                                </div>
-                                                </v-card-title>
-                                            </v-flex>
-                                            </v-layout>
-                                            <v-divider light></v-divider>
-                                        </v-card>
-                                        </v-flex>
+                                
                         
                                 <v-flex xs12>
                                     <v-card color="cyan" class="white--text">
                                     <v-layout>
-                                        <v-flex xs7>
-                                        <v-card-title primary-title>
-                                            <div>
-                                            <div class="headline">"Cat"</div>
-                                            </div>
-                                        </v-card-title>
-                                        </v-flex>
-                                    </v-layout>
-                                    <v-divider light></v-divider>
-                                    </v-card>
-                                </v-flex>
-                        
-                                <v-flex xs12>
-                                    <v-card color="yellow darken-2" class="white--text">
-                                    <v-layout row>
-                                        <v-flex xs7>
-                                        <v-card-title primary-title>
-                                            <div>
-                                            <div class="headline">{{ subwords }}</div>
+                                        <v-flex xs9>
+                                        <v-card-title primary-title> 
+                                            <div id="app" class="headline">
+                                                <p v-if="seen" v-for="subword in subwords">{{ subword }}</p>
                                             </div>
                                         </v-card-title>
                                         </v-flex>
                                     </v-layout>
                                     </v-card>
                                 </v-flex>
-
                               </v-layout>
                             </v-container>
-                        </v-card>   
+                            
+                        </v-card>  
+                        
                     </div>
+
+                    <v-layout align-center justify-center column fill-height>
+                        <v-flex>
+                            <v-btn dark @click="seen = !seen">See all Subwords</v-btn>
+                        </v-flex> 
+                    </v-layout>
+
+                    <div></div>
 
                     <v-layout align-center justify-center column fill-height>
                         <v-flex>
@@ -123,12 +91,15 @@ var app = new Vue({
     el: '#app',
     data: {
         word: "",
-        subwords: []
+        subwords: [],
+        seen: false
     },
     mounted() {
         socket.on('newWord', (data) => {
+            app.seen = false
             app.word = data.word
             app.subwords = data.subwords
+            
         })
         
     },
